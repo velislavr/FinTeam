@@ -29,7 +29,7 @@ const actionStyles = {
   },
 };
 
-export default function DecisionCard({ data }: { data: DecisionData }) {
+export default function DecisionCard({ data, companyName }: { data: DecisionData; companyName?: string }) {
   const style = actionStyles[data.action];
 
   return (
@@ -42,6 +42,9 @@ export default function DecisionCard({ data }: { data: DecisionData }) {
         <p className="text-sm text-neutral-400">{style.plain}</p>
         <p className="text-lg font-mono text-neutral-300">
           {data.ticker}
+          {companyName && companyName !== data.ticker && (
+            <span className="text-neutral-500 font-sans"> — {companyName}</span>
+          )}
           {data.quantity > 0 && (
             <span> &middot; {data.quantity} shares</span>
           )}

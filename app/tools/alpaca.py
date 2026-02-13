@@ -12,6 +12,16 @@ def _get_api() -> tradeapi.REST:
     )
 
 
+def get_company_name(ticker: str) -> str:
+    """Look up the company name for a ticker via Alpaca."""
+    api = _get_api()
+    try:
+        asset = api.get_asset(ticker)
+        return asset.name
+    except Exception:
+        return ticker
+
+
 @tool
 def execute_trade(ticker: str, side: str, qty: int) -> dict:
     """Submit a market order via Alpaca paper trading.

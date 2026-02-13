@@ -23,6 +23,7 @@ interface AnalyzeResult {
       reasoning: string;
     };
   };
+  company_name: string;
   analyzedAt?: string;
 }
 
@@ -32,7 +33,7 @@ export default function ResultsPanel({ data }: { data: AnalyzeResult }) {
   return (
     <div className="w-full max-w-5xl space-y-6">
       {data.analyzedAt && <Timestamp iso={data.analyzedAt} />}
-      <DecisionCard data={decision} />
+      <DecisionCard data={decision} companyName={data.company_name} />
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <SentimentCard data={decision.sentiment_input} />
         <QuantCard data={decision.quant_input} />

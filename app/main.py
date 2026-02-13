@@ -25,6 +25,7 @@ class AnalyzeRequest(BaseModel):
 
 class AnalyzeResponse(BaseModel):
     decision: TradeDecision
+    company_name: str
 
 
 @app.get("/health")
@@ -40,4 +41,7 @@ async def analyze(req: AnalyzeRequest):
         raise HTTPException(status_code=400, detail="Ticker is required")
 
     result = await app_graph.ainvoke({"ticker": ticker})
-    return AnalyzeResponse(decision=result["decision"])
+    return AnalyzeResponse(
+        decision=result["decision"],
+        company_name=result.get("company_name", ticker),
+    )

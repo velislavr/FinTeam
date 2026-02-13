@@ -27,6 +27,7 @@ interface AnalyzeResult {
       reasoning: string;
     };
   };
+  company_name: string;
   analyzedAt: string;
 }
 
