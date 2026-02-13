@@ -82,8 +82,9 @@ export default function Home() {
         <div className="text-center space-y-3">
           <h1 className="text-4xl font-bold tracking-tight">FinTeam</h1>
           <p className="text-neutral-400 max-w-lg">
-            AI-powered stock analysis. Three specialized AI agents analyze news
-            sentiment, technical charts, and make a final trading recommendation.
+            A multi-agent system where autonomous AI analysts work in parallel —
+            parsing live market sentiment, decoding technical signals, and converging
+            on a single trade decision in seconds.
           </p>
         </div>
 
