@@ -1,5 +1,4 @@
-import smtplib
-from email.message import EmailMessage
+import httpx
 
 from fastapi import FastAPI, Header, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
@@ -58,23 +57,25 @@ class KeyRequestResponse(BaseModel):
     sent: bool
 
 
-def _send_notification(name: str, email: str) -> None:
-    """Send a key-request notification to the admin via Gmail SMTP."""
-    msg = EmailMessage()
-    msg["Subject"] = f"FinTeam key request from {name}"
-    msg["From"] = settings.smtp_user
-    msg["To"] = settings.notify_email
-    msg.set_content(
-        f"Name: {name}\nEmail: {email}\n\n"
-        "To approve, run:\n"
-        f"  python manage.py create-key\n\n"
-        "Then reply to the requester with the key."
-    )
-
-    with smtplib.SMTP(settings.smtp_host, settings.smtp_port) as server:
-        server.starttls()
-        server.login(settings.smtp_user, settings.smtp_password)
-        server.send_message(msg)
+async def _send_notification(name: str, email: str) -> None:
+    """Send a key-request notification to the admin via Resend."""
+    async with httpx.AsyncClient() as client:
+        resp = await client.post(
+            "https://api.resend.com/emails",
+            headers={"Authorization": f"Bearer {settings.resend_api_key}"},
+            json={
+                "from": "FinTeam <noreply@finteam.app>",
+                "to": [settings.notify_email],
+                "subject": f"FinTeam key request from {name}",
+                "text": (
+                    f"Name: {name}\nEmail: {email}\n\n"
+                    "To approve, run:\n"
+                    "  python manage.py create-key\n\n"
+                    "Then reply to the requester with the key."
+                ),
+            },
+        )
+        resp.raise_for_status()
 
 
 @app.get("/health")
@@ -85,9 +86,9 @@ async def health():
 @app.post("/request-key", response_model=KeyRequestResponse)
 async def request_key(req: KeyRequest):
     """Send an email notification so the admin can provision a key."""
-    if not settings.smtp_user or not settings.notify_email:
+    if not settings.resend_api_key or not settings.notify_email:
         raise HTTPException(status_code=503, detail="Email notifications are not configured")
-    _send_notification(req.name, req.email)
+    await _send_notification(req.name, req.email)
     return KeyRequestResponse(sent=True)
 
 

@@ -18,11 +18,8 @@ class Settings(BaseSettings):
     # Redis
     redis_url: str = "redis://localhost:6379"
 
-    # SMTP (Gmail)
-    smtp_host: str = "smtp.gmail.com"
-    smtp_port: int = 587
-    smtp_user: str = ""
-    smtp_password: str = ""
+    # Email (Resend)
+    resend_api_key: str = ""
     notify_email: str = ""
 
     # Limits
