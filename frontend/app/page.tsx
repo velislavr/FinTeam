@@ -1,11 +1,14 @@
 "use client";
 
 import { useState } from "react";
+import AuthGate from "../components/AuthGate";
 import TickerInput from "../components/TickerInput";
 import PipelineStatus from "../components/PipelineStatus";
 import ResultsPanel from "../components/ResultsPanel";
 import HistoryBar from "../components/HistoryBar";
 import Footer from "../components/Footer";
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 
 interface AnalyzeResult {
   decision: {
@@ -32,6 +35,26 @@ interface AnalyzeResult {
 }
 
 export default function Home() {
+  return (
+    <AuthGate>
+      {({ apiKey, remaining, setRemaining, logout }) => (
+        <Dashboard apiKey={apiKey} remaining={remaining} setRemaining={setRemaining} logout={logout} />
+      )}
+    </AuthGate>
+  );
+}
+
+function Dashboard({
+  apiKey,
+  remaining,
+  setRemaining,
+  logout,
+}: {
+  apiKey: string;
+  remaining: number;
+  setRemaining: (n: number) => void;
+  logout: () => void;
+}) {
   const [loading, setLoading] = useState(false);
   const [activeTicker, setActiveTicker] = useState<string | null>(null);
   const [result, setResult] = useState<AnalyzeResult | null>(null);
@@ -39,17 +62,30 @@ export default function Home() {
   const [error, setError] = useState<string | null>(null);
 
   const handleAnalyze = async (ticker: string) => {
+    if (remaining <= 0) {
+      setError("No analyses remaining on this key");
+      return;
+    }
+
     setLoading(true);
     setActiveTicker(ticker);
     setError(null);
     setResult(null);
 
     try {
-      const res = await fetch("http://localhost:8000/analyze", {
+      const res = await fetch(`${API_URL}/analyze`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          "X-API-Key": apiKey,
+        },
         body: JSON.stringify({ ticker }),
       });
+
+      if (res.status === 403) {
+        logout();
+        return;
+      }
 
       if (!res.ok) {
         const body = await res.json().catch(() => null);
@@ -63,6 +99,7 @@ export default function Home() {
       };
       setResult(withTimestamp);
       setHistory((prev) => [withTimestamp, ...prev]);
+      setRemaining(Math.max(remaining - 1, 0));
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong");
     } finally {
@@ -78,6 +115,18 @@ export default function Home() {
 
   return (
     <div className="flex flex-col min-h-screen">
+      <header className="flex items-center justify-between px-6 py-3 border-b border-neutral-800/50">
+        <div className="text-xs font-mono text-neutral-500">
+          {remaining} {remaining === 1 ? "analysis" : "analyses"} remaining
+        </div>
+        <button
+          onClick={logout}
+          className="text-xs text-neutral-500 hover:text-neutral-300 transition-colors"
+        >
+          Sign out
+        </button>
+      </header>
+
       <main className="flex-1 flex flex-col items-center justify-center px-6 gap-12 py-12">
         <div className="text-center space-y-3">
           <h1 className="text-4xl font-bold tracking-tight">FinTeam</h1>

@@ -1,9 +1,10 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, Header, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 from app.agents.graph import app_graph
 from app.models.trade import TradeDecision
+from app.utils.auth import validate_key, increment_usage
 
 app = FastAPI(
     title="FinTeam",
@@ -13,7 +14,7 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
+    allow_origins=["*"],
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -28,19 +29,54 @@ class AnalyzeResponse(BaseModel):
     company_name: str
 
 
+class KeyStatus(BaseModel):
+    valid: bool
+    remaining: int
+
+
+def require_key(x_api_key: str = Header(...)) -> str:
+    """FastAPI dependency that validates the API key and checks remaining usage."""
+    info = validate_key(x_api_key)
+    if not info["valid"]:
+        raise HTTPException(
+            status_code=403,
+            detail="API key is invalid or has no remaining analyses",
+        )
+    return x_api_key
+
+
 @app.get("/health")
 async def health():
     return {"status": "ok"}
 
 
+@app.get("/validate-key", response_model=KeyStatus)
+async def check_key(key: str = Query(...)):
+    """Check whether an API key is valid and how many analyses remain."""
+    info = validate_key(key)
+    return KeyStatus(**info)
+
+
 @app.post("/analyze", response_model=AnalyzeResponse)
-async def analyze(req: AnalyzeRequest):
+async def analyze(req: AnalyzeRequest, x_api_key: str = Header(...)):
     """Run the full agent pipeline for a given ticker."""
+    # Validate key
+    info = validate_key(x_api_key)
+    if not info["valid"]:
+        raise HTTPException(
+            status_code=403,
+            detail="API key is invalid or has no remaining analyses",
+        )
+
     ticker = req.ticker.upper().strip()
     if not ticker:
         raise HTTPException(status_code=400, detail="Ticker is required")
 
     result = await app_graph.ainvoke({"ticker": ticker})
+
+    # Only count usage after a successful analysis
+    increment_usage(x_api_key)
+
     return AnalyzeResponse(
         decision=result["decision"],
         company_name=result.get("company_name", ticker),

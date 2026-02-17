@@ -21,6 +21,7 @@ class Settings(BaseSettings):
     # Limits
     cache_ttl_seconds: int = 300
     max_input_tokens: int = 4000
+    default_key_limit: int = 5
 
     model_config = {"env_file": ".env", "extra": "ignore"}
 
