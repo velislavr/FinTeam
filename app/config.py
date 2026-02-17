@@ -18,6 +18,13 @@ class Settings(BaseSettings):
     # Redis
     redis_url: str = "redis://localhost:6379"
 
+    # SMTP (Gmail)
+    smtp_host: str = "smtp.gmail.com"
+    smtp_port: int = 587
+    smtp_user: str = ""
+    smtp_password: str = ""
+    notify_email: str = ""
+
     # Limits
     cache_ttl_seconds: int = 300
     max_input_tokens: int = 4000

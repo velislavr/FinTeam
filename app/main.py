@@ -1,8 +1,12 @@
+import smtplib
+from email.message import EmailMessage
+
 from fastapi import FastAPI, Header, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 
 from app.agents.graph import app_graph
+from app.config import settings
 from app.models.trade import TradeDecision
 from app.utils.auth import validate_key, increment_usage
 
@@ -45,9 +49,46 @@ def require_key(x_api_key: str = Header(...)) -> str:
     return x_api_key
 
 
+class KeyRequest(BaseModel):
+    name: str
+    email: EmailStr
+
+
+class KeyRequestResponse(BaseModel):
+    sent: bool
+
+
+def _send_notification(name: str, email: str) -> None:
+    """Send a key-request notification to the admin via Gmail SMTP."""
+    msg = EmailMessage()
+    msg["Subject"] = f"FinTeam key request from {name}"
+    msg["From"] = settings.smtp_user
+    msg["To"] = settings.notify_email
+    msg.set_content(
+        f"Name: {name}\nEmail: {email}\n\n"
+        "To approve, run:\n"
+        f"  python manage.py create-key\n\n"
+        "Then reply to the requester with the key."
+    )
+
+    with smtplib.SMTP(settings.smtp_host, settings.smtp_port) as server:
+        server.starttls()
+        server.login(settings.smtp_user, settings.smtp_password)
+        server.send_message(msg)
+
+
 @app.get("/health")
 async def health():
     return {"status": "ok"}
+
+
+@app.post("/request-key", response_model=KeyRequestResponse)
+async def request_key(req: KeyRequest):
+    """Send an email notification so the admin can provision a key."""
+    if not settings.smtp_user or not settings.notify_email:
+        raise HTTPException(status_code=503, detail="Email notifications are not configured")
+    _send_notification(req.name, req.email)
+    return KeyRequestResponse(sent=True)
 
 
 @app.get("/validate-key", response_model=KeyStatus)
