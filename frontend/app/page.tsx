@@ -129,7 +129,7 @@ function Dashboard({
 
       <main className="flex-1 flex flex-col items-center justify-center px-6 gap-16 py-16">
         <div className="text-center space-y-3">
-          <h1 className="font-domaine font-gradient text-[75px] md:text-[9rem] tracking-[-0.01em] leading-[100%] text-center pb-3 font-normal">FinTeam</h1>
+          <h1 className="font-domaine font-gradient text-[75px] md:text-[6rem] tracking-[-0.01em] leading-[100%] text-center pb-3 font-normal">FinTeam</h1>
           <p className="text-neutral-400 max-w-lg">
             A multi-agent system where autonomous AI analysts work in parallel,
             parsing live market sentiment, decoding technical signals, and converging
