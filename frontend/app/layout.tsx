@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "FinTeam — Multi-Agent Trading System",
+  title: "FinTeam - Multi-Agent Trading System",
   description: "AI-powered stock analysis using LangGraph",
 };
 

@@ -1,5 +1,7 @@
 # FinTeam
 
+> **Disclaimer:** FinTeam is for informational and educational purposes only. It does not constitute financial advice. Always do your own research before making investment decisions.
+
 Multi-agent AI trading system built with [LangGraph](https://github.com/langchain-ai/langgraph) and [FastAPI](https://fastapi.tiangolo.com/). Three specialized AI agents collaborate to analyze stocks and produce trading recommendations.
 
 ## How It Works
@@ -31,10 +33,10 @@ FinTeam runs a pipeline of three agents orchestrated as a LangGraph state graph:
                 (buy / sell / hold)
 ```
 
-1. **Fetch Data** — Scrapes news headlines from Finviz and computes technical indicators (RSI, MACD, SMA20, SMA50) via the Alpaca market data API.
-2. **Sentiment Agent** — Reads the headlines and classifies overall market sentiment as bullish, bearish, or neutral with a confidence score.
-3. **Quant Agent** — Interprets the technical indicators and produces a buy/sell/hold signal with reasoning.
-4. **Orchestrator** — Synthesizes both analyses into a final trade decision, including action, share quantity, and rationale.
+1. **Fetch Data** - Scrapes news headlines from Finviz and computes technical indicators (RSI, MACD, SMA20, SMA50) via the Alpaca market data API.
+2. **Sentiment Agent** - Reads the headlines and classifies overall market sentiment as bullish, bearish, or neutral with a confidence score.
+3. **Quant Agent** - Interprets the technical indicators and produces a buy/sell/hold signal with reasoning.
+4. **Orchestrator** - Synthesizes both analyses into a final trade decision, including action, share quantity, and rationale.
 
 The Sentiment and Quant agents run **in parallel** for faster results.
 

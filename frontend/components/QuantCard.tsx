@@ -1,3 +1,7 @@
+import RSIGauge from "./charts/RSIGauge";
+import PriceCompare from "./charts/PriceCompare";
+import MACDIndicator from "./charts/MACDIndicator";
+
 interface QuantData {
   ticker: string;
   indicators: Record<string, number>;
@@ -11,21 +15,21 @@ const signalStyles = {
   hold: { color: "text-yellow-400", icon: "→", label: "HOLD", plain: "The charts show no clear direction" },
 };
 
-const indicatorInfo: Record<string, { label: string; explain: string }> = {
-  rsi: { label: "RSI", explain: "Measures if a stock is overbought (>70) or oversold (<30)" },
-  macd: { label: "MACD", explain: "Tracks momentum shifts — positive means uptrend" },
-  macd_signal: { label: "MACD Signal", explain: "When MACD crosses above this, it's a buy signal" },
-  sma_20: { label: "20-Day Avg", explain: "Average price over the last 20 trading days" },
-  sma_50: { label: "50-Day Avg", explain: "Average price over the last 50 trading days" },
-  current_price: { label: "Current Price", explain: "Latest trading price" },
-};
+const knownKeys = new Set(["rsi", "macd", "macd_signal", "sma_20", "sma_50", "current_price"]);
 
 export default function QuantCard({ data }: { data: QuantData }) {
   const style = signalStyles[data.signal];
-  const entries = Object.entries(data.indicators);
+  const ind = data.indicators;
+
+  const hasRSI = ind.rsi != null;
+  const hasMACD = ind.macd != null && ind.macd_signal != null;
+  const hasSMA = ind.current_price != null && ind.sma_20 != null && ind.sma_50 != null;
+
+  // Any indicator keys we don't have a chart for
+  const unknownEntries = Object.entries(ind).filter(([k]) => !knownKeys.has(k));
 
   return (
-    <div className="bg-neutral-900 border border-neutral-800 rounded-xl p-6 flex flex-col gap-4">
+    <div className="bg-neutral-900 border border-neutral-800 rounded-xl p-6 flex flex-col gap-5">
       <div className="flex items-center justify-between">
         <div>
           <h3 className="text-sm font-medium text-neutral-400 uppercase tracking-wider">
@@ -42,23 +46,26 @@ export default function QuantCard({ data }: { data: QuantData }) {
 
       <p className="text-sm text-neutral-400 italic">{style.plain}</p>
 
-      {entries.length > 0 && (
-        <div className="space-y-3">
-          <p className="text-xs text-neutral-500 uppercase">Key Indicators</p>
-          {entries.map(([key, value]) => {
-            const info = indicatorInfo[key] || { label: key, explain: "" };
-            return (
-              <div key={key} className="space-y-0.5">
-                <div className="flex justify-between text-sm">
-                  <span className="text-neutral-300">{info.label}</span>
-                  <span className="font-mono text-white">{value}</span>
-                </div>
-                {info.explain && (
-                  <p className="text-xs text-neutral-600">{info.explain}</p>
-                )}
-              </div>
-            );
-          })}
+      {hasRSI && <RSIGauge value={ind.rsi} />}
+
+      {hasSMA && (
+        <PriceCompare
+          currentPrice={ind.current_price}
+          sma20={ind.sma_20}
+          sma50={ind.sma_50}
+        />
+      )}
+
+      {hasMACD && <MACDIndicator macd={ind.macd} signal={ind.macd_signal} />}
+
+      {unknownEntries.length > 0 && (
+        <div className="space-y-2">
+          {unknownEntries.map(([key, value]) => (
+            <div key={key} className="flex justify-between text-sm">
+              <span className="text-neutral-300">{key}</span>
+              <span className="font-mono text-white">{value}</span>
+            </div>
+          ))}
         </div>
       )}
 

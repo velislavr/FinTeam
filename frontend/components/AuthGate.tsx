@@ -222,6 +222,10 @@ export default function AuthGate({ children }: AuthGateProps) {
             Don&apos;t have a key? Request access
           </button>
         </div>
+
+        <p className="text-xs text-neutral-600 text-center">
+          Not financial advice. For informational and educational purposes only.
+        </p>
       </div>
     </div>
   );

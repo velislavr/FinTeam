@@ -1,3 +1,5 @@
+import ConfidenceGauge from "./charts/ConfidenceGauge";
+
 interface SentimentData {
   ticker: string;
   sentiment: "bullish" | "bearish" | "neutral";
@@ -7,9 +9,9 @@ interface SentimentData {
 }
 
 const sentimentStyles = {
-  bullish: { color: "text-green-400", bg: "bg-green-400", label: "BULLISH", icon: "↑", plain: "Positive — the news looks good" },
-  bearish: { color: "text-red-400", bg: "bg-red-400", label: "BEARISH", icon: "↓", plain: "Negative — the news raises concerns" },
-  neutral: { color: "text-yellow-400", bg: "bg-yellow-400", label: "NEUTRAL", icon: "→", plain: "Mixed — no strong signal either way" },
+  bullish: { color: "text-green-400", label: "BULLISH", icon: "↑", plain: "Positive - the news looks good" },
+  bearish: { color: "text-red-400", label: "BEARISH", icon: "↓", plain: "Negative - the news raises concerns" },
+  neutral: { color: "text-yellow-400", label: "NEUTRAL", icon: "→", plain: "Mixed - no strong signal either way" },
 };
 
 export default function SentimentCard({ data }: { data: SentimentData }) {
@@ -33,18 +35,7 @@ export default function SentimentCard({ data }: { data: SentimentData }) {
 
       <p className="text-sm text-neutral-400 italic">{style.plain}</p>
 
-      <div className="space-y-2">
-        <div className="flex justify-between text-sm">
-          <span className="text-neutral-400">How confident is the AI?</span>
-          <span className="font-mono">{(data.confidence * 100).toFixed(0)}%</span>
-        </div>
-        <div className="w-full bg-neutral-800 rounded-full h-2.5">
-          <div
-            className={`${style.bg} h-2.5 rounded-full transition-all duration-1000`}
-            style={{ width: `${data.confidence * 100}%` }}
-          />
-        </div>
-      </div>
+      <ConfidenceGauge confidence={data.confidence} sentiment={data.sentiment} />
 
       <div>
         <p className="text-xs text-neutral-500 uppercase mb-1">AI Analysis</p>

@@ -19,6 +19,9 @@ export default function Footer() {
           </span>
         ))}
       </div>
+      <p className="text-center text-xs text-neutral-600 mt-2">
+        Not financial advice. For informational and educational purposes only.
+      </p>
     </footer>
   );
 }

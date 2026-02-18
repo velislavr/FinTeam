@@ -1,8 +1,10 @@
-# FinTeam — Project Overview
+# FinTeam - Project Overview
+
+> **Disclaimer:** FinTeam is for informational and educational purposes only. It does not constitute financial advice. Always do your own research before making investment decisions.
 
 ## Elevator Pitch
 
-FinTeam is a multi-agent AI system that analyzes stocks in real time. You give it a ticker, and three autonomous AI agents work in parallel — one reads the news, one crunches the charts, and a third synthesizes both into a single buy/sell/hold recommendation. The whole pipeline runs in seconds.
+FinTeam is a multi-agent AI system that analyzes stocks in real time. You give it a ticker, and three autonomous AI agents work in parallel - one reads the news, one crunches the charts, and a third synthesizes both into a single buy/sell/hold recommendation. The whole pipeline runs in seconds.
 
 ---
 
@@ -122,9 +124,9 @@ Each node reads from and writes to the shared state. LangGraph handles the paral
 
 All structured outputs use **Pydantic** models with validation. The LLMs return structured JSON that gets parsed directly into these models via LangChain's `with_structured_output`.
 
-- `SentimentResult` — sentiment enum, confidence float (0–1), summary, source headlines
-- `QuantResult` — signal enum, indicator values dict, reasoning
-- `TradeDecision` — action enum, quantity (0–100), rationale, both inputs embedded
+- `SentimentResult` - sentiment enum, confidence float (0–1), summary, source headlines
+- `QuantResult` - signal enum, indicator values dict, reasoning
+- `TradeDecision` - action enum, quantity (0–100), rationale, both inputs embedded
 
 ---
 

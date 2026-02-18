@@ -25,7 +25,7 @@ def compute_indicators(ticker: str, period: int = 100) -> dict[str, float | None
     """
     api = _get_api()
 
-    # Use an explicit date range — limit alone is unreliable in some
+    # Use an explicit date range - limit alone is unreliable in some
     # alpaca-trade-api versions and may return only a single bar.
     end = datetime.now()
     start = end - timedelta(days=int(period * 1.5))  # ~1.5x to cover weekends/holidays

@@ -131,7 +131,7 @@ function Dashboard({
         <div className="text-center space-y-3">
           <h1 className="text-4xl font-bold tracking-tight">FinTeam</h1>
           <p className="text-neutral-400 max-w-lg">
-            A multi-agent system where autonomous AI analysts work in parallel —
+            A multi-agent system where autonomous AI analysts work in parallel,
             parsing live market sentiment, decoding technical signals, and converging
             on a single trade decision in seconds.
           </p>
@@ -184,7 +184,7 @@ function Dashboard({
                 <p className="text-2xl">🧠</p>
                 <p className="text-sm font-medium text-neutral-300">Orchestrator</p>
                 <p className="text-xs text-neutral-500">
-                  Reviews both analyses and makes the final call — buy, sell, or
+                  Reviews both analyses and makes the final call - buy, sell, or
                   hold.
                 </p>
               </div>

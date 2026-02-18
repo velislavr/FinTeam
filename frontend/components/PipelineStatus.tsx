@@ -18,7 +18,7 @@ const steps: Step[] = [
   {
     label: "Reading Technical Charts",
     description:
-      "Pulling historical price data and computing indicators like RSI, MACD, and moving averages — the math behind the charts.",
+      "Pulling historical price data and computing indicators like RSI, MACD, and moving averages - the math behind the charts.",
     duration: 3000,
   },
   {
