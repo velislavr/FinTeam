@@ -30,7 +30,7 @@ export default function ConfidenceGauge({ confidence, sentiment }: ConfidenceGau
         <path
           d={`M ${CX - RADIUS} ${CY} A ${RADIUS} ${RADIUS} 0 0 1 ${CX + RADIUS} ${CY}`}
           fill="none"
-          stroke="#262626"
+          stroke="#1a1a1a"
           strokeWidth={8}
           strokeLinecap="round"
         />

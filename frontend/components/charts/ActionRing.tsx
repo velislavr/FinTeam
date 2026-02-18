@@ -66,7 +66,7 @@ export default function ActionRing({ action }: ActionRingProps) {
           cy={CY}
           r={R}
           fill="none"
-          stroke="#262626"
+          stroke="#1a1a1a"
           strokeWidth={3}
         />
         {/* Animated foreground ring */}

@@ -1,11 +1,63 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: "Domaine Display Narrow";
+  src: url("/fonts/DomaineDispNrw-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 @theme inline {
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --animate-fade-in-up: fade-in-up 0.5s ease-out both;
   --animate-ring-draw: ring-draw 1s ease-out both;
   --animate-pulse-glow: pulse-glow 2.5s ease-in-out infinite;
+}
+
+@layer base {
+  body {
+    background:
+      radial-gradient(ellipse 80% 60% at 50% -20%, rgba(120, 119, 198, 0.08), transparent),
+      radial-gradient(ellipse 60% 40% at 80% 50%, rgba(78, 78, 161, 0.04), transparent),
+      #0a0a0a;
+  }
+}
+
+@utility font-domaine {
+  font-family: "Domaine Display Narrow", Georgia, serif;
+}
+
+@utility font-gradient {
+  background: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.95) 0%,
+    rgba(255, 255, 255, 0.55) 50%,
+    rgba(255, 255, 255, 0.9) 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+@utility card-surface {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(12px);
+}
+
+@utility input-surface {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+@utility glow-hover {
+  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+  &:hover {
+    box-shadow: 0 0 30px -5px rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.1);
+  }
 }
 
 @keyframes fade-in-up {

@@ -29,10 +29,10 @@ export default function QuantCard({ data }: { data: QuantData }) {
   const unknownEntries = Object.entries(ind).filter(([k]) => !knownKeys.has(k));
 
   return (
-    <div className="bg-neutral-900 border border-neutral-800 rounded-xl p-6 flex flex-col gap-5">
+    <div className="card-surface glow-hover rounded-xl p-6 flex flex-col gap-5">
       <div className="flex items-center justify-between">
         <div>
-          <h3 className="text-sm font-medium text-neutral-400 uppercase tracking-wider">
+          <h3 className="text-sm font-medium text-neutral-400 uppercase tracking-widest">
             Technical Analysis
           </h3>
           <p className="text-xs text-neutral-600 mt-0.5">What the charts are showing</p>

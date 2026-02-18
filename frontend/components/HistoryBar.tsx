@@ -50,10 +50,10 @@ export default function HistoryBar({ history, activeId, onSelect }: HistoryBarPr
             <button
               key={item.analyzedAt}
               onClick={() => onSelect(item)}
-              className={`px-3 py-1.5 rounded-lg border text-sm font-mono transition-all ${colors} ${
+              className={`px-3 py-1.5 rounded-xl border text-sm font-mono transition-all ${colors} ${
                 isActive
-                  ? "bg-neutral-800 opacity-100"
-                  : "bg-neutral-900/50 opacity-60 hover:opacity-100"
+                  ? "bg-white/[0.06] opacity-100"
+                  : "bg-white/[0.02] opacity-60 hover:opacity-100"
               }`}
             >
               {item.decision.ticker}{" "}

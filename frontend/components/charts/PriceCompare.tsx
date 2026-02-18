@@ -40,7 +40,7 @@ export default function PriceCompare({ currentPrice, sma20, sma50 }: PriceCompar
           y1={40}
           x2={xPos(sorted[sorted.length - 1].value)}
           y2={40}
-          stroke="#404040"
+          stroke="#262626"
           strokeWidth={1}
         />
 

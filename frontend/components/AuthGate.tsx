@@ -113,13 +113,13 @@ export default function AuthGate({ children }: AuthGateProps) {
       return (
         <div className="flex flex-col items-center justify-center min-h-screen px-6">
           <div className="w-full max-w-sm space-y-8 text-center">
-            <h1 className="text-4xl font-bold tracking-tight">FinTeam</h1>
+            <h1 className="font-domaine font-gradient text-5xl font-normal">FinTeam</h1>
             <p className="text-neutral-400 text-sm">
               Request sent! You&apos;ll receive your key by email.
             </p>
             <button
               onClick={() => { setShowRequest(false); setReqSent(false); setReqName(""); setReqEmail(""); }}
-              className="text-amber-500 hover:text-amber-400 text-sm transition-colors"
+              className="text-neutral-400 hover:text-white text-sm transition-colors"
             >
               Back to sign in
             </button>
@@ -132,7 +132,7 @@ export default function AuthGate({ children }: AuthGateProps) {
       <div className="flex flex-col items-center justify-center min-h-screen px-6">
         <div className="w-full max-w-sm space-y-8">
           <div className="text-center space-y-3">
-            <h1 className="text-4xl font-bold tracking-tight">FinTeam</h1>
+            <h1 className="font-domaine font-gradient text-5xl font-normal">FinTeam</h1>
             <p className="text-neutral-400 text-sm">
               Request access to get an API key.
             </p>
@@ -144,19 +144,19 @@ export default function AuthGate({ children }: AuthGateProps) {
               value={reqName}
               onChange={(e) => setReqName(e.target.value)}
               placeholder="Name"
-              className="w-full px-4 py-3 bg-neutral-800 border border-neutral-700 rounded-lg text-white placeholder-neutral-500 focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 text-sm"
+              className="w-full px-4 py-3 input-surface rounded-xl text-white placeholder-neutral-500 focus:outline-none focus:border-white/20 focus:ring-1 focus:ring-white/10 text-sm"
             />
             <input
               type="email"
               value={reqEmail}
               onChange={(e) => setReqEmail(e.target.value)}
               placeholder="Email"
-              className="w-full px-4 py-3 bg-neutral-800 border border-neutral-700 rounded-lg text-white placeholder-neutral-500 focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 text-sm"
+              className="w-full px-4 py-3 input-surface rounded-xl text-white placeholder-neutral-500 focus:outline-none focus:border-white/20 focus:ring-1 focus:ring-white/10 text-sm"
             />
             <button
               type="submit"
               disabled={reqSending || !reqName.trim() || !reqEmail.trim()}
-              className="w-full px-4 py-3 bg-amber-500 hover:bg-amber-400 disabled:bg-neutral-700 disabled:cursor-not-allowed rounded-lg font-semibold transition-colors text-sm"
+              className="w-full px-4 py-3 bg-white text-black hover:bg-neutral-200 disabled:bg-neutral-700 disabled:text-neutral-400 disabled:cursor-not-allowed rounded-xl font-semibold transition-colors text-sm"
             >
               {reqSending ? "Sending..." : "Request Access"}
             </button>
@@ -185,7 +185,7 @@ export default function AuthGate({ children }: AuthGateProps) {
     <div className="flex flex-col items-center justify-center min-h-screen px-6">
       <div className="w-full max-w-sm space-y-8">
         <div className="text-center space-y-3">
-          <h1 className="text-4xl font-bold tracking-tight">FinTeam</h1>
+          <h1 className="font-domaine font-gradient text-5xl font-normal">FinTeam</h1>
           <p className="text-neutral-400 text-sm">
             Enter your API key to get started.
           </p>
@@ -197,12 +197,12 @@ export default function AuthGate({ children }: AuthGateProps) {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder="ft-..."
-            className="w-full px-4 py-3 bg-neutral-800 border border-neutral-700 rounded-lg text-white placeholder-neutral-500 focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 font-mono text-sm"
+            className="w-full px-4 py-3 input-surface rounded-xl text-white placeholder-neutral-500 focus:outline-none focus:border-white/20 focus:ring-1 focus:ring-white/10 font-mono text-sm"
           />
           <button
             type="submit"
             disabled={checking || !input.trim()}
-            className="w-full px-4 py-3 bg-amber-500 hover:bg-amber-400 disabled:bg-neutral-700 disabled:cursor-not-allowed rounded-lg font-semibold transition-colors text-sm"
+            className="w-full px-4 py-3 bg-white text-black hover:bg-neutral-200 disabled:bg-neutral-700 disabled:text-neutral-400 disabled:cursor-not-allowed rounded-xl font-semibold transition-colors text-sm"
           >
             {checking ? "Validating..." : "Continue"}
           </button>

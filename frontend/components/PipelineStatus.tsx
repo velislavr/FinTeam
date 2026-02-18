@@ -83,7 +83,7 @@ export default function PipelineStatus({ ticker }: { ticker: string }) {
                     isDone
                       ? "bg-green-500/20 border-green-500 text-green-400"
                       : isActive
-                      ? "border-amber-400 text-amber-300 animate-pulse"
+                      ? "border-white/60 text-white animate-pulse"
                       : "border-neutral-700 text-neutral-600"
                   }`}
                 >

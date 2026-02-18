@@ -18,10 +18,10 @@ export default function SentimentCard({ data }: { data: SentimentData }) {
   const style = sentimentStyles[data.sentiment];
 
   return (
-    <div className="bg-neutral-900 border border-neutral-800 rounded-xl p-6 flex flex-col gap-4">
+    <div className="card-surface glow-hover rounded-xl p-6 flex flex-col gap-4">
       <div className="flex items-center justify-between">
         <div>
-          <h3 className="text-sm font-medium text-neutral-400 uppercase tracking-wider">
+          <h3 className="text-sm font-medium text-neutral-400 uppercase tracking-widest">
             News Sentiment
           </h3>
           <p className="text-xs text-neutral-600 mt-0.5">What the market is saying</p>

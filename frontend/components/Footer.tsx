@@ -9,7 +9,7 @@ const techs = [
 
 export default function Footer() {
   return (
-    <footer className="border-t border-neutral-800/50 py-4 px-6">
+    <footer className="border-t border-white/[0.06] py-6 px-6">
       <div className="flex items-center justify-center gap-1 text-xs text-neutral-600">
         <span>Powered by</span>
         {techs.map((t, i) => (
